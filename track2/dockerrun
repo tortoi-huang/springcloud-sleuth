@@ -1,0 +1,2 @@
+#!/bin/sh
+docker run -e "SPRING_PROFILES_ACTIVE=prod" -p 9102:9102 -t huang/sleuth/track2

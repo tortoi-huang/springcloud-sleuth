@@ -1,0 +1,2 @@
+#!/bin/sh
+./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=huang/sleuth/track1

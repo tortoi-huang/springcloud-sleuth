@@ -1,0 +1,2 @@
+#!/bin/sh
+docker run -e "SPRING_PROFILES_ACTIVE=prod" -p 8761:8761 -t huang/sleuth/eureka
