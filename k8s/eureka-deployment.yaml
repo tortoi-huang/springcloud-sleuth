@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet 
+metadata:
+  name: eureka-sleuth
+  labels:
+    app: eureka
+spec:
+  # 这里根据 serviceName来确定域名，如这里的服务名称分别为 heureka-sleuth-1,eureka-sleuth-2 ...
+  serviceName: eureka-sleuth
+  replicas: 3
+  selector:
+    matchLabels:
+      app: eureka
+  template:
+    metadata:
+      labels:
+        app: eureka
+    spec:
+      containers:
+      - name: eureka-po
+        image: "huang/sleuth/eureka"
+        imagePullPolicy: Never
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256M
+        ports:
+        - containerPort: 8761
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-sleuth
+  labels:
+    app: eureka
+spec:
+  #这里type默认是ClusterIP，外网无法访问, 这里配置node port后service会绑定当前配置端口到一个30000+的本地端口上， 访问该端口即可访问服务
+  type: NodePort
+  ports:
+  - port: 8761
+    targetPort: 8761
+  selector:
+    app: eureka
